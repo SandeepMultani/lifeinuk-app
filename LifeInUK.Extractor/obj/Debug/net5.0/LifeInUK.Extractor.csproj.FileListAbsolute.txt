@@ -1,0 +1,16 @@
+/home/sandeep/ws/git/lifeinuk-extractor/LifeInUK.Extractor/bin/Debug/net5.0/LifeInUK.Extractor
+/home/sandeep/ws/git/lifeinuk-extractor/LifeInUK.Extractor/bin/Debug/net5.0/LifeInUK.Extractor.deps.json
+/home/sandeep/ws/git/lifeinuk-extractor/LifeInUK.Extractor/bin/Debug/net5.0/LifeInUK.Extractor.runtimeconfig.json
+/home/sandeep/ws/git/lifeinuk-extractor/LifeInUK.Extractor/bin/Debug/net5.0/LifeInUK.Extractor.runtimeconfig.dev.json
+/home/sandeep/ws/git/lifeinuk-extractor/LifeInUK.Extractor/bin/Debug/net5.0/LifeInUK.Extractor.dll
+/home/sandeep/ws/git/lifeinuk-extractor/LifeInUK.Extractor/bin/Debug/net5.0/ref/LifeInUK.Extractor.dll
+/home/sandeep/ws/git/lifeinuk-extractor/LifeInUK.Extractor/bin/Debug/net5.0/LifeInUK.Extractor.pdb
+/home/sandeep/ws/git/lifeinuk-extractor/LifeInUK.Extractor/obj/Debug/net5.0/LifeInUK.Extractor.csproj.AssemblyReference.cache
+/home/sandeep/ws/git/lifeinuk-extractor/LifeInUK.Extractor/obj/Debug/net5.0/LifeInUK.Extractor.GeneratedMSBuildEditorConfig.editorconfig
+/home/sandeep/ws/git/lifeinuk-extractor/LifeInUK.Extractor/obj/Debug/net5.0/LifeInUK.Extractor.AssemblyInfoInputs.cache
+/home/sandeep/ws/git/lifeinuk-extractor/LifeInUK.Extractor/obj/Debug/net5.0/LifeInUK.Extractor.AssemblyInfo.cs
+/home/sandeep/ws/git/lifeinuk-extractor/LifeInUK.Extractor/obj/Debug/net5.0/LifeInUK.Extractor.csproj.CoreCompileInputs.cache
+/home/sandeep/ws/git/lifeinuk-extractor/LifeInUK.Extractor/obj/Debug/net5.0/LifeInUK.Extractor.dll
+/home/sandeep/ws/git/lifeinuk-extractor/LifeInUK.Extractor/obj/Debug/net5.0/ref/LifeInUK.Extractor.dll
+/home/sandeep/ws/git/lifeinuk-extractor/LifeInUK.Extractor/obj/Debug/net5.0/LifeInUK.Extractor.pdb
+/home/sandeep/ws/git/lifeinuk-extractor/LifeInUK.Extractor/obj/Debug/net5.0/LifeInUK.Extractor.genruntimeconfig.cache
