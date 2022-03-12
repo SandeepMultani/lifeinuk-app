@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using LifeInUK.Extractor.Models;
 using LifeInUK.Extractor.Options;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -16,22 +18,21 @@ namespace LifeInUK.Extractor.Services
             ILogger<RawDataFromFilesService> logger,
             IOptions<ExtractorOptions> extractorOptions)
         {
-            if (logger == null)
-                throw new ArgumentNullException(nameof(logger));
-
             if (extractorOptions == null || extractorOptions.Value == null)
                 throw new ArgumentNullException(nameof(extractorOptions));
 
-            _logger = logger;
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _extractorOptions = extractorOptions.Value;
         }
 
-        public IEnumerable<string> Get()
+        public IEnumerable<QuestionRawData> Get()
         {
             foreach (string file in Directory.EnumerateFiles($"{AppDomain.CurrentDomain.BaseDirectory}{_extractorOptions.RawDataPath}", $"*.{_extractorOptions.RawDataFileExtension}"))
             {
-                _logger.LogInformation("Reading file {filename}", file);
-                yield return File.ReadAllText(file);
+                yield return new QuestionRawData{
+                    RawData = File.ReadAllText(file),
+                    FileName = file
+                };
             }
         }
     }

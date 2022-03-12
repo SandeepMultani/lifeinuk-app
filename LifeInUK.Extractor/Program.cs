@@ -1,4 +1,5 @@
 ﻿using System;
+using HtmlAgilityPack;
 using LifeInUK.Extractor.Options;
 using LifeInUK.Extractor.Services;
 using Microsoft.Extensions.Configuration;
@@ -32,7 +33,7 @@ namespace LifeInUK.Extractor
                             services.Configure<ExtractorOptions>(configuration.GetSection(ExtractorOptions.Selector));
                             services.AddTransient<Application>();
                             services.AddTransient<IRawDataService, RawDataFromFilesService>();
-                            services.AddTransient(typeof(IExtractorService<,>), typeof(ExtractorService<,>));
+                            services.AddTransient(typeof(IExtractorService<HtmlDocument, HtmlNode>), typeof(HtmlExtractorService));
                         })
                         .UseSerilog()
                         .Build();

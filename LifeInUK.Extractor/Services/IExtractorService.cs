@@ -1,14 +1,14 @@
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using LifeInUK.Extractor.Extractors;
+using LifeInUK.Extractor.Models;
 using LifeInUK.Extractor.Parsers;
-using LifeInUK.Extractor.Strategies;
 
 namespace LifeInUK.Extractor.Services
 {
     public interface IExtractorService<TContent, TContentSection>
     {
-        IExtractionStrategy<TContent, TContentSection> ExtractionStrategy {get;}
-        void Extract(string content);
+        IParser<TContent> Parser { get; }
+        IExtractor<QuestionMetadataCollection, TContentSection> QuestionMetadataExtractor { get; }
+        IExtractor<Question, TContentSection> QuestionExtractor { get; }
+        void Extract(QuestionRawData rawData);
     }
 }

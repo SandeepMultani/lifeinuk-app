@@ -1,10 +1,14 @@
+using System.Collections.Generic;
+using System.Text.Json;
+using System.Text.RegularExpressions;
 using HtmlAgilityPack;
+using LifeInUK.Extractor.Extensions;
 using LifeInUK.Extractor.Models;
 using Microsoft.Extensions.Logging;
 
 namespace LifeInUK.Extractor.Extractors.HtmlExtractors
 {
-    public class QuestionMetadataHtmlExtractor : IExtractor<QuestionMetadata, HtmlNode>
+    public class QuestionMetadataHtmlExtractor : IExtractor<QuestionMetadataCollection, HtmlNode>
     {
         private readonly ILogger<QuestionMetadataHtmlExtractor> _logger;
         public QuestionMetadataHtmlExtractor(ILoggerFactory loggerFactory)
@@ -15,10 +19,19 @@ namespace LifeInUK.Extractor.Extractors.HtmlExtractors
             _logger = loggerFactory.CreateLogger<QuestionMetadataHtmlExtractor>();
         }
 
-        public QuestionMetadata Extract(HtmlNode node)
+        public QuestionMetadataCollection Extract(HtmlNode node)
         {
-            _logger.LogInformation(nameof(QuestionMetadataHtmlExtractor));
-            return new QuestionMetadata();
+            var json = Regex.Match(node.InnerHtml.ReplaceWhitespace(""), @"json:(.+?)}}\);").Groups[1].Value;
+
+            var quesMetadata = JsonSerializer.Deserialize<IDictionary<string, QuestionMetadata>>(json, 
+                new JsonSerializerOptions{
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                });
+
+            return new QuestionMetadataCollection
+            {
+                Metadata = quesMetadata
+            };
         }
     }
 }
