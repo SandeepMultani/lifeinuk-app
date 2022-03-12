@@ -3,7 +3,7 @@ using System.Text.Json;
 using System.Text.RegularExpressions;
 using HtmlAgilityPack;
 using LifeInUK.Extractor.Extensions;
-using LifeInUK.Extractor.Models;
+using LifeInUK.Extractor.Models.HtmlRawDataModels;
 using Microsoft.Extensions.Logging;
 
 namespace LifeInUK.Extractor.Extractors.HtmlExtractors

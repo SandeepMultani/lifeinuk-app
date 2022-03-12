@@ -27,13 +27,36 @@ namespace LifeInUK.Extractor.Services
 
         public IEnumerable<QuestionRawData> Get()
         {
-            foreach (string file in Directory.EnumerateFiles($"{AppDomain.CurrentDomain.BaseDirectory}{_extractorOptions.RawDataPath}", $"*.{_extractorOptions.RawDataFileExtension}"))
+            string[] searchPaths = {
+                _extractorOptions.RawDataPath.ChapterBased,
+                _extractorOptions.RawDataPath.PracticeTest,
+                _extractorOptions.RawDataPath.MockExam,
+             };
+
+            foreach (var path in searchPaths)
             {
-                yield return new QuestionRawData{
-                    RawData = File.ReadAllText(file),
-                    FileName = file
-                };
+                var fullPath = $"{AppDomain.CurrentDomain.BaseDirectory}{path}";
+                if (!Directory.Exists(fullPath))
+                {
+                    _logger.LogWarning("Raw data path {Path} doesn't exists.", fullPath);
+                    continue;
+                }
+
+                foreach (string file in Directory.EnumerateFiles(fullPath, $"*.{_extractorOptions.RawDataFileExtension}"))
+                {
+                    yield return new QuestionRawData
+                    {
+                        RawData = File.ReadAllText(file),
+                        Source = file,
+                        Type = GetType(path)
+                    };
+                }
             }
+        }
+
+        private static string GetType(string path)
+        {
+            return path.Split("/")[1];
         }
     }
 }

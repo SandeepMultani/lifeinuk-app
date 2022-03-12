@@ -1,6 +1,6 @@
 using System;
 using HtmlAgilityPack;
-using LifeInUK.Extractor.Models;
+using LifeInUK.Extractor.Models.HtmlRawDataModels;
 using LifeInUK.Extractor.Options;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;

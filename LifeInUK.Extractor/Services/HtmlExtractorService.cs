@@ -5,11 +5,14 @@ using HtmlAgilityPack;
 using LifeInUK.Extractor.Extensions;
 using LifeInUK.Extractor.Extractors;
 using LifeInUK.Extractor.Extractors.HtmlExtractors;
+using LifeInUK.Extractor.Models.HtmlRawDataModels;
 using LifeInUK.Extractor.Models;
 using LifeInUK.Extractor.Options;
 using LifeInUK.Extractor.Parsers;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using LifeInUK.Extractor.ValueSets;
+using System.Linq;
 
 namespace LifeInUK.Extractor.Services
 {
@@ -91,15 +94,42 @@ namespace LifeInUK.Extractor.Services
                 if (quesMetadata.Metadata.TryGetValue(question.Id.ToString(), out var metadata))
                 {
                     question.Metadata = metadata;
+                    AssignIfCorrect(question);
                 }
                 else
                 {
                     question.Errors.Add("Metadata not found");
                 }
                 questionBag.Add(question);
-                LogQuestion(question, rawData.FileName, count);
+                LogQuestion(question, rawData.Source, count);
                 count++;
             }
+
+            var questionSet = CreateQuestionSet(rawData, htmlDoc, quesMetadata);
+            LogQuestionSet(questionSet, rawData.Source);
+        }
+
+        private void AssignIfCorrect(Question question)
+        {
+            question.Options.ForEach(x =>
+                x.IsCorrect = question.Metadata.Correct[x.Position] == 1);
+        }
+
+        private QuestionSet CreateQuestionSet(QuestionRawData rawData, HtmlDocument doc, QuestionMetadataCollection quesMetadata)
+        {
+            return new QuestionSet
+            {
+                Source = rawData.Source,
+                Type = rawData.Type,
+                Title = GetQuestionSetTitle(doc),
+                Questions = quesMetadata.Metadata.Select(kvp => int.Parse(kvp.Key)).ToList()
+            };
+        }
+
+        private string GetQuestionSetTitle(HtmlDocument doc)
+        {
+            var titleNode = doc.GetNode(_extractorOptions.XPath.QuestionSetTitle);
+            return titleNode.InnerText;
         }
 
         private void LogQuestion(
@@ -111,6 +141,20 @@ namespace LifeInUK.Extractor.Services
                                 questionNumber,
                                 filename,
                                 JsonSerializer.Serialize(question,
+                                new JsonSerializerOptions
+                                {
+                                    WriteIndented = true,
+                                    Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+                                }));
+        }
+
+        private void LogQuestionSet(
+            QuestionSet questionSet,
+            string filename)
+        {
+            _logger.LogInformation("QuestionSet from {FileName}:\n{QuestionSetData}",
+                                filename,
+                                JsonSerializer.Serialize(questionSet,
                                 new JsonSerializerOptions
                                 {
                                     WriteIndented = true,

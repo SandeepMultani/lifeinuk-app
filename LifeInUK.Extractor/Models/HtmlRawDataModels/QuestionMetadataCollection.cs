@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace LifeInUK.Extractor.Models
+namespace LifeInUK.Extractor.Models.HtmlRawDataModels
 {
     public class QuestionMetadataCollection
     {

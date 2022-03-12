@@ -1,4 +1,5 @@
 using LifeInUK.Extractor.Extractors;
+using LifeInUK.Extractor.Models.HtmlRawDataModels;
 using LifeInUK.Extractor.Models;
 using LifeInUK.Extractor.Parsers;
 

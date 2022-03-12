@@ -8,7 +8,7 @@ namespace LifeInUK.Extractor.Options
     public class ExtractorOptions
     {
         public const string Selector = "ExtractorOptions";
-        public string RawDataPath { get; set; }
+        public RawDataPaths RawDataPath { get; set; }
         public string RawDataFileExtension { get; set; }
         public XPathOptions XPath { get; set; }
         public QuestionAttributes QuestionAttribute { get; set; }
@@ -16,6 +16,8 @@ namespace LifeInUK.Extractor.Options
 
     public class XPathOptions
     {
+
+        public string QuestionSetTitle { get; set; }
         public string QuestionMetadata { get; set; }
         public string Questions { get; set; }
         public string QuestionTitle { get; set; }
@@ -30,5 +32,12 @@ namespace LifeInUK.Extractor.Options
         public string QuestionIdAttribute { get; set; }
         public string QuestionTypeAttribute { get; set; }
         public string QuestionOptionPosition { get; set; }
+    }
+
+    public class RawDataPaths
+    {
+        public string ChapterBased { get; set; }
+        public string PracticeTest { get; set; }
+        public string MockExam { get; set; }
     }
 }
