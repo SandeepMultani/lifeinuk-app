@@ -28,7 +28,7 @@ namespace LifeInUK.Extractor.Services
 
             if (existingQuestionSet != null)
             {
-                _logger.LogWarning("QuestionSet {QuestionSetId} already exists with Id={ExistingQuestionSetId}: {QuestionSetTitle}",
+                _logger.LogWarning("QuestionSet {QuestionSetId} already exists with Id {ExistingQuestionSetId}: {QuestionSetTitle}",
                 questionSet.Id,
                 existingQuestionSet.QuestionSetId,
                 existingQuestionSet.Title);
