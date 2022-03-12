@@ -10,6 +10,6 @@ namespace LifeInUK.Extractor.Services
         IParser<TContent> Parser { get; }
         IExtractor<QuestionMetadataCollection, TContentSection> QuestionMetadataExtractor { get; }
         IExtractor<Question, TContentSection> QuestionExtractor { get; }
-        void Extract(QuestionRawData rawData);
+        QuestionSet Extract(QuestionRawData rawData);
     }
 }

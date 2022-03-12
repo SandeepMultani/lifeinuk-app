@@ -1,6 +1,6 @@
-namespace LifeInUK.Extractor.Entities
+namespace LifeInUK.Extractor.Documents
 {
-    public class QuestionOption : Entity
+    public class QuestionOptionDocument
     {
         public int Position { get; set; }
         public string Label { get; set; }

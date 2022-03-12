@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 
-namespace LifeInUK.Extractor.Entities
+namespace LifeInUK.Extractor.Documents
 {
-    public class QuestionMetadata : Entity
+    public class QuestionMetadataDocument
     {
         public string Type { get; set; }
         public int QuestionId { get; set; }

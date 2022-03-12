@@ -1,6 +1,8 @@
 ﻿using System;
 using HtmlAgilityPack;
 using LifeInUK.Extractor.Options;
+using LifeInUK.Extractor.Repositories;
+using LifeInUK.Extractor.Repositories.Mongo;
 using LifeInUK.Extractor.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,9 +33,13 @@ namespace LifeInUK.Extractor
                         .ConfigureServices((context, services) =>
                         {
                             services.Configure<ExtractorOptions>(configuration.GetSection(ExtractorOptions.Selector));
-                            services.AddTransient<Application>();
-                            services.AddTransient<IRawDataService, RawDataFromFilesService>();
-                            services.AddTransient(typeof(IExtractorService<HtmlDocument, HtmlNode>), typeof(HtmlExtractorService));
+                            services.Configure<DatabaseOptions>(configuration.GetSection(DatabaseOptions.Selector));
+                            services.AddSingleton<Application>();
+                            services.AddSingleton<IRawDataService, RawDataFromFilesService>();
+                            services.AddSingleton(typeof(IExtractorService<HtmlDocument, HtmlNode>), typeof(HtmlExtractorService));
+                            services.AddScoped<IQuestionService, QuestionService>();
+                            services.AddScoped<IQuestionSetService, QuestionSetService>();
+                            services.AddScoped(typeof(IRepository<>), typeof(MongoRepository<>));
                         })
                         .UseSerilog()
                         .Build();
@@ -46,6 +52,7 @@ namespace LifeInUK.Extractor
             return new ConfigurationBuilder()
                 .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddUserSecrets<Program>()
                 .AddEnvironmentVariables();
         }
 

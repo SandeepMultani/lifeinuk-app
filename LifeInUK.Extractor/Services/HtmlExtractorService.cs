@@ -11,7 +11,6 @@ using LifeInUK.Extractor.Options;
 using LifeInUK.Extractor.Parsers;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using LifeInUK.Extractor.ValueSets;
 using System.Linq;
 
 namespace LifeInUK.Extractor.Services
@@ -66,7 +65,7 @@ namespace LifeInUK.Extractor.Services
             }
         }
 
-        public void Extract(QuestionRawData rawData)
+        public QuestionSet Extract(QuestionRawData rawData)
         {
             var htmlDoc = Parser.Parse(rawData.RawData);
             var questionBag = new ConcurrentBag<Question>();
@@ -74,8 +73,8 @@ namespace LifeInUK.Extractor.Services
             var questionMetaNode = htmlDoc.GetNode(_extractorOptions.XPath.QuestionMetadata);
             if (questionMetaNode == null)
             {
-                _logger.LogWarning("QuestionMetadata node not found.");
-                return;
+                _logger.LogWarning("QuestionMetadata node not found");
+                return (QuestionSet)null;
             }
 
             var quesMetadata = QuestionMetadataExtractor.Extract(questionMetaNode);
@@ -83,8 +82,8 @@ namespace LifeInUK.Extractor.Services
             var questionNodes = htmlDoc.GetNodes(_extractorOptions.XPath.Questions);
             if (questionNodes.Count == 0)
             {
-                _logger.LogWarning("QuestionMetadata node not found.");
-                return;
+                _logger.LogWarning("Question nodes not found");
+                return (QuestionSet)null;
             }
 
             var count = 1;
@@ -101,12 +100,14 @@ namespace LifeInUK.Extractor.Services
                     question.Errors.Add("Metadata not found");
                 }
                 questionBag.Add(question);
-                LogQuestion(question, rawData.Source, count);
+                //LogQuestion(question, rawData.Source, count);
                 count++;
             }
 
             var questionSet = CreateQuestionSet(rawData, htmlDoc, quesMetadata);
-            LogQuestionSet(questionSet, rawData.Source);
+            questionSet.Questions = questionBag.ToList();
+            //LogQuestionSet(questionSet, rawData.Source);
+            return questionSet;
         }
 
         private void AssignIfCorrect(Question question)
@@ -119,10 +120,11 @@ namespace LifeInUK.Extractor.Services
         {
             return new QuestionSet
             {
+                Id = rawData.Source.Base64Encode(),
                 Source = rawData.Source,
                 Type = rawData.Type,
                 Title = GetQuestionSetTitle(doc),
-                Questions = quesMetadata.Metadata.Select(kvp => int.Parse(kvp.Key)).ToList()
+                QuestionIds = quesMetadata.Metadata.Select(kvp => int.Parse(kvp.Key)).ToList()
             };
         }
 
