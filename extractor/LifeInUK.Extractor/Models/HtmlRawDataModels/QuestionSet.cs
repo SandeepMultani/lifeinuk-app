@@ -15,6 +15,7 @@ namespace LifeInUK.Extractor.Models.HtmlRawDataModels
         public string Source { get; set; }
         public List<int> QuestionIds { get; set; }
         public int TimeLimitInSeconds { get; }
+        public decimal Position { get; set; }
         public List<Question> Questions { get; set; }
     }
 }

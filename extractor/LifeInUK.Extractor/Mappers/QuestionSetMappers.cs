@@ -14,6 +14,7 @@ namespace LifeInUK.Extractor.Mappers
                 Type = questionSet.Type,
                 Source = questionSet.Source,
                 Questions = questionSet.QuestionIds,
+                Position = questionSet.Position,
                 TimeLimitInSeconds = questionSet.TimeLimitInSeconds
             };
         }
