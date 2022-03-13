@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using LifeInUK.Extractor.Repositories.Mongo;
+using LifeInUK.Api.Repositories.Mongo;
 
-namespace LifeInUK.Extractor.Documents
+namespace LifeInUK.Api.Documents
 {
     [BsonCollection("QuestionSets")]
     public class QuestionSetDocument : Document

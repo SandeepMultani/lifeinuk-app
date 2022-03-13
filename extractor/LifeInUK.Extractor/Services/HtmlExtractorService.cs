@@ -120,12 +120,22 @@ namespace LifeInUK.Extractor.Services
         {
             return new QuestionSet
             {
-                Id = rawData.Source.Base64Encode(),
+                Id = rawData.FileName.Base64Encode(),
                 Source = rawData.Source,
                 Type = rawData.Type,
                 Title = GetQuestionSetTitle(doc),
+                Position = GetPosition(rawData.FileName),
                 QuestionIds = quesMetadata.Metadata.Select(kvp => int.Parse(kvp.Key)).ToList()
             };
+        }
+
+        private static decimal GetPosition(string fileName)
+        {
+            if (decimal.TryParse(fileName.Replace("test.", "").Replace("exam.", "").Replace(".txt", ""), out var pos))
+            {
+                return pos;
+            }
+            return 0;
         }
 
         private string GetQuestionSetTitle(HtmlDocument doc)

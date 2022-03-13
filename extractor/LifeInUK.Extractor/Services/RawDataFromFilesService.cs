@@ -48,10 +48,17 @@ namespace LifeInUK.Extractor.Services
                     {
                         RawData = File.ReadAllText(file),
                         Source = file,
+                        FileName = GetFileName(file),
                         Type = GetType(path)
                     };
                 }
             }
+        }
+
+        private string GetFileName(string filePath)
+        {
+            var pathArr = filePath.Split("/");
+            return pathArr[^1];
         }
 
         private static string GetType(string path)
